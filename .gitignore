@@ -1,0 +1,48 @@
+# Codes
+.old*/
+
+
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.synctex.gz
+*.xdv
+
+# bibliography
+*.bcf
+*.run.xml
+
+# glossaries
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+
+# index
+*.idx
+*.ilg
+*.ind
+
+# latexmk
+latexmkrc
+
+# minted (code highlighting)
+_minted*
+
+# output directories (optional)
+build/
+out/
+
