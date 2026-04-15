@@ -1,6 +1,5 @@
 # KTX Hospital
 
----
 
 ## Description
 
