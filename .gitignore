@@ -2,6 +2,8 @@
 .old*/
 *.duckdb
 *.duckdb.wal
+.euc-raw/*
+!.euc-raw/conver_encoding.r
 
 
 # LaTeX intermediate files
