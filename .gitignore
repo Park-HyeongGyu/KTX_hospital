@@ -4,6 +4,12 @@
 *.duckdb.wal
 .euc-raw/*
 !.euc-raw/conver_encoding.r
+.boundary_data-raw
+temp
+.codex
+.~lock*
+temp*
+test*
 
 
 # LaTeX intermediate files
