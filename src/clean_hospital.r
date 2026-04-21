@@ -14,8 +14,6 @@ con <- dbConnect(duckdb(), DB_CLEAN)
 ############################################################
 
 raw_kosis_hospital <- file.path(RAW, "KOSIS_시군구별_종별_요양기관.csv")
-csv_hospital_no_by_type <- file.path(CSV, "hospital_no_by_type.csv")
-parquet_hospital_no_by_type <- file.path(CLEAN, "hospital_no_by_type.parquet")
 
 dbExecute(con, glue("
     CREATE OR REPLACE TABLE temp_1 AS
@@ -181,14 +179,6 @@ dbExecute(con, glue("
     ORDER BY region_sido, region_sigungu, hospital_type, year
 "))
 
-dbExecute(con, glue("
-    COPY hospital_no_by_type TO '{csv_hospital_no_by_type}' (FORMAT CSV)
-"))
-
-dbExecute(con, glue("
-    COPY hospital_no_by_type TO '{parquet_hospital_no_by_type}' (FORMAT PARQUET)
-"))
-
 dbExecute(con, "
     DROP TABLE IF EXISTS hospital_no_by_typejg
 ")
@@ -211,8 +201,6 @@ dbExecute(con, "
 ############################################################
 
 raw_hira_exit <- file.path(RAW, "HIRA_요양기관폐업현황.csv")
-csv_exit_no_by_type <- file.path(CSV, "exit_no_by_type.csv")
-parquet_exit_no_by_type <- file.path(CLEAN, "exit_no_by_type.parquet")
 
 dbExecute(con, glue("
     CREATE OR REPLACE TABLE temp_11 AS
@@ -400,14 +388,6 @@ dbExecute(con, glue("
     ORDER BY g.region_sido, g.region_sigungu, g.hospital_type, g.year
 "))
 
-dbExecute(con, glue("
-    COPY exit_no_by_type TO '{csv_exit_no_by_type}' (FORMAT CSV)
-"))
-
-dbExecute(con, glue("
-    COPY exit_no_by_type TO '{parquet_exit_no_by_type}' (FORMAT PARQUET)
-"))
-
 dbExecute(con, "
     DROP TABLE IF EXISTS temp_11
 ")
@@ -421,16 +401,14 @@ dbExecute(con, "
 ")
 
 ############################################################
-#### hospital_full.parquet #################################
+#### clean_hospital_by_type.parquet #########################
 ############################################################
 
-parquet_hospital_no_by_type <- file.path(CLEAN, "hospital_no_by_type.parquet")
-parquet_exit_no_by_type <- file.path(CLEAN, "exit_no_by_type.parquet")
-csv_hospital_full <- file.path(CSV, "hospital_full.csv")
-parquet_hospital_full <- file.path(CLEAN, "hospital_full.parquet")
+csv_clean_hospital_by_type <- file.path(CSV, "clean_hospital_by_type.csv")
+parquet_clean_hospital_by_type <- file.path(CLEAN, "clean_hospital_by_type.parquet")
 
 dbExecute(con, glue("
-    CREATE OR REPLACE TABLE hospital_full AS
+    CREATE OR REPLACE TABLE clean_hospital_by_type AS
     WITH hospital_no_base AS (
         SELECT
             region_sido,
@@ -438,7 +416,7 @@ dbExecute(con, glue("
             hospital_type,
             year,
             value AS hospital_no
-        FROM read_parquet('{parquet_hospital_no_by_type}')
+        FROM hospital_no_by_type
     ),
     exit_no_base AS (
         SELECT
@@ -447,7 +425,7 @@ dbExecute(con, glue("
             hospital_type,
             year,
             exit_no
-        FROM read_parquet('{parquet_exit_no_by_type}')
+        FROM exit_no_by_type
     ),
     joined_base AS (
         SELECT
@@ -497,12 +475,11 @@ dbExecute(con, glue("
 "))
 
 dbExecute(con, glue("
-    COPY hospital_full TO '{csv_hospital_full}' (FORMAT CSV)
+    COPY clean_hospital_by_type TO '{csv_clean_hospital_by_type}' (FORMAT CSV)
 "))
 
 dbExecute(con, glue("
-    COPY hospital_full TO '{parquet_hospital_full}' (FORMAT PARQUET)
+    COPY clean_hospital_by_type TO '{parquet_clean_hospital_by_type}' (FORMAT PARQUET)
 "))
 
 dbDisconnect(con, shutdown = TRUE)
-
