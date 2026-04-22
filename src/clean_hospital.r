@@ -482,4 +482,18 @@ dbExecute(con, glue("
     COPY clean_hospital_by_type TO '{parquet_clean_hospital_by_type}' (FORMAT PARQUET)
 "))
 
+csv_merge_key <- file.path(CSV, "merge_key.csv")
+dbExecute(con, "
+    CREATE OR REPLACE TABLE merge_key AS
+    SELECT DISTINCT
+        region_sido,
+        region_sigungu
+    FROM clean_hospital_by_type
+    ORDER BY region_sido, region_sigungu
+")
+
+dbExecute(con, glue("
+    COPY merge_key TO '{csv_merge_key}' (FORMAT CSV)
+"))
+
 dbDisconnect(con, shutdown = TRUE)
