@@ -254,7 +254,8 @@ dbWriteTable(con, "temp_station_coord", temp_station_coord, overwrite = TRUE)
 #### ktx station coordinates ####
 
 ktx_shock_date_raw <- read_excel(
-    path = file.path(RAW, "manual", "ktx_shock_date.xlsx")
+    #path = file.path(RAW, "manual", "ktx_shock_date.xlsx")
+    path = file.path(RAW, "manual", "ktx_shock_date_removed.xlsx")
 )
 
 ktx_shock_date <- ktx_shock_date_raw %>%
@@ -389,3 +390,4 @@ for (threshold_km in seq(10, 50, 10)) {
 }
 
 dbDisconnect(con, shutdown = TRUE)
+
