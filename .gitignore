@@ -10,6 +10,7 @@ temp
 .~lock*
 temp*
 test*
+osrm-korea
 
 
 # LaTeX intermediate files
