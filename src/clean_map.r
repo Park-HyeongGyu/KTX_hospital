@@ -380,9 +380,13 @@ for (threshold_km in seq(10, 50, 10)) {
     "))
 
     clean_shock_path <- file.path(CLEAN, glue("{clean_shock_table}.parquet"))
+    clean_shock_csv <- file.path(CSV, glue("{clean_shock_table}.csv"))
 
     dbExecute(con, glue("
         COPY {clean_shock_table} TO '{clean_shock_path}' (FORMAT PARQUET)
+    "))
+    dbExecute(con, glue("
+        COPY {clean_shock_table} TO '{clean_shock_csv}' (FORMAT csv)
     "))
 
     dbExecute(con, "DROP TABLE IF EXISTS temp_1")
