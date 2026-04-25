@@ -1,0 +1,6 @@
+"cutoff_km","analysis_regions","treated_regions","control_regions","already_treated_regions","newly_included_regions"
+10,132,29,103,28,29
+20,122,44,78,38,18
+30,110,62,48,50,24
+40,96,68,28,64,16
+50,84,72,12,76,11
