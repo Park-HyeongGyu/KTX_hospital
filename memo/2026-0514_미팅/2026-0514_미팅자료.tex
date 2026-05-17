@@ -1,0 +1,409 @@
+\documentclass[a4paper, 10pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{float}
+\usepackage{setspace}
+
+\usepackage{enumitem}
+\setlist[itemize]{nosep}
+\setlist[enumerate]{nosep}
+
+
+\begin{document}
+    \onehalfspacing
+
+    \section{Data Clearing}
+        \begin{itemize}
+            \item 서울, 경기, 인천, 제주를 제외하고 사용된 총 지역 수 - 160개 시군구
+            \item 서울, 경기, 인천, 제주를 포함하는 총 지역 수 - 239개 시군구
+            \item 지역 통합 규칙
+                \begin{itemize}
+                    \item 경북 군위군 (07-24), 대구 군위군 (2025) \\
+                        $\Rightarrow$ 경북 군위군으로 통합
+                    \item 인천 남구 (07-18), 인천 미추홀구 (19-25) \\
+                        $\Rightarrow$ 인천 남구로 통합
+                    \item 경기 부천시 (17-23), 경기 부천시 소사구\&오정구\&원미구 (07-16, 24-25) \\
+                        $\Rightarrow$ 경기 부천시로 통합
+                    \item 세종 세종시 (13-), 충북 청원군 (07-14), 충북 청주시 청원구\&서원구(15-25),
+                        충북 청주시 상당구\&흥덕구 (07-25), 충남 연기군 (07-12), 충남 공주시 (07-25) \\
+                        $\Rightarrow$ 삭제 (세종이 들어오면서 경계가 변화하였거나 세종시에 흡수된 지역)
+                    \item 충남 천안시(07-08), 충남 천안시 서북구\&동남구 (10-25) \\
+                        $\Rightarrow$ 충남 천안시로 통합
+                    \item 경남 마산시\&진해시\&창원시 (07-12),
+                        경남 창원시 마산합포구\&진해구\&의창구\&성산구(13-25) \\
+                        $\Rightarrow$ 경남 창원시로 통합
+                \end{itemize}
+            \item 기간 - 2007년부터 2025년까지 19개 년도
+            \item 사용된 종속변수들
+                \begin{itemize}
+                    \item 상급종합병원, 종합병원, 병원, 의원 개수
+                    \item 인턴, 레지던트, 전문의, 일반의 명수
+                \end{itemize}
+            \item 사용된 독립변수들
+                \begin{itemize}
+                    \item Travel time
+                \end{itemize}
+            \item Travel time의 정의
+                \begin{itemize}
+                    \item Region $i$의 year $t$에서 서울 용산역 travel time을
+                        $Tr_{it}$로 정의
+                    \item $Tr_{it}$는 자동차만 이용하는 경우와 KTX를 이용하는 경우 중 더 짧은 시간으로 정의
+                        \begin{align*}
+                            Tr_{it}
+                            &=
+                            \min\{Tr^{car}_{it}, Tr^{KTX}_{it}\}.
+                        \end{align*}
+                    \item 자동차 경로는 시군구 centroid에서 용산역까지의 driving time
+                        \begin{align*}
+                            Tr^{car}_{it}
+                            &=
+                            Tr^{car}_{i,\text{centroid}\rightarrow\text{Seoul}}.
+                        \end{align*}
+                        자동차 소요시간은 OpenStreetMap의 2026년 4월 23일 스냅샷 기준으로
+                        OSRM을 이용해 계산
+                    \item KTX 경로는 region $i$의 centroid에서 30km 이내에 있는 KTX 역들의 집합 $H_i$ 중
+                        총 소요시간이 가장 짧은 station을 선택
+                        \begin{align*}
+                            Tr^{KTX}_{it}
+                            &=
+                            \min_{h \in H_i}
+                            \left\{
+                                Tr^{car}_{i,\text{centroid}\rightarrow h}
+                                +
+                                WaitPenalty
+                                +
+                                Tr^{KTX}_{h\rightarrow\text{Seoul/Yongsan},t}
+                            \right\}.
+                        \end{align*}
+                    \item $Tr^{car}_{i,\text{centroid}\rightarrow h}$: 시군구 centroid에서 KTX 역 $h$까지의
+                        driving time
+                    \item $WaitPenalty$: KTX 탑승 전 대기시간 penalty.
+                        20-40분 사이의 적당한 값에 결과가 크게 달라지지 않아서 30분으로 설정
+                    \item $Tr^{KTX}_{h\rightarrow\text{Seoul/Yongsan},t}$: KTX 역 $h$에서
+                        서울역 또는 용산역까지의 train travel time. 코레일 정보공개청구로 획득한
+                        KTX 시간표 데이터를 파싱하여 계산하며, 열차별 소요시간 차이를 고려해
+                        median travel time을 사용
+                \end{itemize}
+        \end{itemize}
+
+    \section{Travel Time 채택 이유}
+        \begin{enumerate}
+            \item 가장 큰 이유는
+                기존의 threshold 거리 안에 KTX shock을 받은 역이 있는 경우에 treatment를
+                받은 것으로 정의했던 기존의 방식이 결과가 잘 나오지 않았다.
+            \item 테이블 \ref{tab:cutoff_sensitivity}에서 확인할 수 있듯 threshold를 어떻게 설정하느냐에 따라
+                treatment를 받은 지역, 받지 않은 지역이 너무 크게크게 변했다.
+            \item treatment를 받았다고 할 수 있을까 의문이 드는 지역에 기존 정의를 쓰면
+                treatment를 받았다고 할 수 밖에 없는 상황에 놓인 경우도 있었다.
+                일례로 경북 예천군이 있다. 경북 예천군은 주위에 영주역이 있고
+                경북 예천군의 centroid와 영주역의 거리가 21km 정도여서 30km threshold 기준
+                영주역에 KTX가 21년부터 다니기 시작하였으니
+                treatment를 21년에 받았다고 정의되는 상황이었다. 그러나 경북 예천군 출신 과 동기가
+                본가에 갈 때 단 한번도 KTX를 타고 가는 것을 보지 못해 무언가 이상하여 동기에게 물어본 결과
+                버스를 타고 가나 KTX를 타고 가나 시간 면에서 큰 차이가 나지 않기도 하고 이미 시외버스를 잘 이용하고
+                있으며 예천군의 주요 지역에서 영주역, 안동역 등 기차역에 가는 것 보다 예천터미널에 가는 것이
+                접근성이 더 좋아서 사람들이 대체로 KTX를 잘 타지 않는다는 답변을 얻었다.
+                위와 같은 상황을 기존의 방식이 잘 반영하지 못한다고 판단하였다.
+            \item 그 외 호남선처럼 KTX가
+                개통되어있긴 했는데 지속적으로 소요시간이 짧아진 경우,
+                KTX가 운행하다가 노선 개편으로
+                더이상 운행하지 않게 된 경우 등을 처리하기 위해 Travel time을 위와 같은
+                방법으로 계산하였다.
+        \end{enumerate}
+        \begin{table}[H]
+            \centering
+            \caption{Treatment status by distance cutoff}
+            \label{tab:cutoff_sensitivity}
+            \input{cutoff_sensitivity.tex}
+        \end{table}
+
+    \section{분석}
+    \subsection{사용 변수}
+        병원 수 변수는
+        $\log(hospital\_no+1)$로 변환하여 사용하였고 
+        의사 수 변수는 $\log(doctor\_no+1)$로 변환하여 사용하였다.
+        독립변수로는 $TravelTime$, $Saving$, $KTXWithin2h$를 사용하였다.
+        $TravelTime$은 위의 정의와 동일하며 나머지 두 변수는
+        다음과 같이 정의하였다.
+        $Saving_{it}$는 2007년의 travel time을 기준으로 한 travel-time saving이다.
+        \begin{align*}
+            Saving_{it} = TravelTime_{i,2007} - TravelTime_{it}
+        \end{align*}
+        즉, $Saving_{it}$가 클수록 2007년 대비 terminal 접근시간이 더 많이 단축된
+        지역-연도라는 뜻이다.
+        $KTXWithin2h_{it}$는 KTX를 이용한 terminal 접근시간이
+        2시간 이하이고, 동시에 자동차 travel time보다 짧은 경우 1을 갖는 더미변수이다.
+        \begin{align*}
+            KTXWithin2h_{it}
+            =
+            \mathbf{1}\{TravelTime^{KTX}_{it} \leq 2,\;
+            TravelTime^{KTX}_{it} < TravelTime^{car}_{it}\}
+        \end{align*}
+        모든 회귀식에는 $\log(Population_{it})$ control, region fixed effects,
+        year fixed effects를 포함하였고, standard error는 region level에서 cluster하였다.
+        
+    \subsection{회귀 결과}
+        \subsubsection{Travel time}
+        \begin{align*}
+            Y_{it}
+            =
+            \alpha_i + \tau_t + \beta TravelTime_{it}
+            + \gamma \log(Population_{it}) + \epsilon_{it}
+        \end{align*}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel Time: 의원}
+            \input{meeting_tt_travel_time_hospital_clinic.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel Time: 병원}
+            \input{meeting_tt_travel_time_hospital_secondary.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel Time: 종합병원}
+            \input{meeting_tt_travel_time_hospital_general.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel Time: 상급종합병원}
+            \input{meeting_tt_travel_time_hospital_tertiary.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel Time: 의사 수}
+            \input{meeting_tt_travel_time_doctor.tex}
+        \end{table}
+
+        \subsubsection{Travel-time saving}
+        \begin{align*}
+            Y_{it}
+            =
+            \alpha_i + \tau_t + \beta Saving_{it}
+            + \gamma \log(Population_{it}) + \epsilon_{it}
+        \end{align*}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel-Time Saving: 의원}
+            \input{meeting_tt_saving_hospital_clinic.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel-Time Saving: 병원}
+            \input{meeting_tt_saving_hospital_secondary.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel-Time Saving: 종합병원}
+            \input{meeting_tt_saving_hospital_general.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel-Time Saving: 상급종합병원}
+            \input{meeting_tt_saving_hospital_tertiary.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{Travel-Time Saving: 의사 수}
+            \input{meeting_tt_saving_doctor.tex}
+        \end{table}
+
+        \subsubsection{KTX within two hours}
+        특이사항으로, $KTXWithin2h$ 변수에서 threshold 시간을 1.5, 2.5, 3, 3.5 등으로
+        바꿔보아도 크게 유의미한 결과가 나오지 않았음
+        \begin{align*}
+            Y_{it}
+            =
+            \alpha_i + \tau_t + \delta KTXWithin2h_{it}
+            + \gamma \log(Population_{it}) + \epsilon_{it}
+        \end{align*}
+
+        \begin{table}[H]
+            \centering
+            \caption{KTX Within Two Hours: 의원}
+            \input{meeting_tt_ktx_within2h_hospital_clinic.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{KTX Within Two Hours: 병원}
+            \input{meeting_tt_ktx_within2h_hospital_secondary.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{KTX Within Two Hours: 종합병원}
+            \input{meeting_tt_ktx_within2h_hospital_general.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{KTX Within Two Hours: 상급종합병원}
+            \input{meeting_tt_ktx_within2h_hospital_tertiary.tex}
+        \end{table}
+
+        \begin{table}[H]
+            \centering
+            \caption{KTX Within Two Hours: 의사 수}
+            \input{meeting_tt_ktx_within2h_doctor.tex}
+        \end{table}
+        
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\textwidth]{tertiary_hospital_count_by_region.png}
+        \end{figure}
+            
+
+    
+    \newpage
+    \appendix
+    
+    \section{기존 shock 정의 분석결과}
+        Shock은 시군구 centroid에서 30km 이내에 KTX 정차역이 존재하는 경우로 정의하며,
+        분석기간은 2007년부터 2025년까지이다. 모든 분석에서 서울, 경기, 인천, 제주는 제외하였다.
+        병원 분석의 type별 표본은 해당 type 병원이 분석기간 전체에서 한 번도 관측되지 않는 지역을 제외하였다.
+        의사 분석은 별도의 zero restriction 없이 서울, 경기, 인천, 제주를 제외한 지역 전체를 사용하였다.
+
+        Rate 변수의 observation 수는 count 변수와 다를 수 있다.
+        Entry rate와 exit rate는 해당 지역-연도에서 병원 수가 양수일 때만 정의되기 때문이다.
+        Callaway and Sant'Anna simple ATT는 병원 분석의 경우 TWFE와 동일한 6개 종속변수에 대해 추정하였고,
+        의사 분석의 경우 level별 의사 수를 사용하였다.
+        또한 2007년 이전 또는 2007년에 이미 treated인 지역은
+        회귀에 사용하지 않았다.
+
+        \subsection{Summary Statistics}
+            \begin{table}[H]
+                \centering
+                \caption{30km summary statistics: doctor sample}
+                \input{meeting_summary_stats_doctor.tex}
+            \end{table}
+
+        \subsection{TWFE DiD}
+            TWFE 분석은 다음 회귀식으로 추정하였다.
+            Region fixed effects와 year fixed effects를 포함하고,
+            standard error는 region level에서 cluster하였다.
+            \begin{align*}
+                Y_{it}
+                &=
+                \alpha_i
+                +
+                \lambda_t
+                +
+                \beta Shock_{it}
+                +
+                \varepsilon_{it}.
+            \end{align*}
+
+            \begin{table}[H]
+                \centering
+                \caption{TWFE DiD 의원}
+                \input{meeting_twfe_hospital_clinic.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{TWFE DiD 병원}
+                \input{meeting_twfe_hospital_secondary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{TWFE DiD 종합병원}
+                \input{meeting_twfe_hospital_general.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{TWFE DiD 상급종합병원}
+                \input{meeting_twfe_hospital_tertiary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{TWFE DiD 의사 수}
+                \input{meeting_twfe_doctor.tex}
+            \end{table}
+
+        \subsection{Callaway and Sant'Anna Simple ATT}
+            Callaway and Sant'Anna 방식의
+            group-time ATT를 먼저 추정한 뒤, simple aggregation을 사용하였다.
+            Control group은 not-yet-treated regions로 두었다.
+
+            \begin{table}[H]
+                \centering
+                \caption{Callaway and Sant'Anna simple ATT 의원}
+                \input{meeting_cs_hospital_clinic.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Callaway and Sant'Anna simple ATT 병원}
+                \input{meeting_cs_hospital_secondary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Callaway and Sant'Anna simple ATT 종합병원}
+                \input{meeting_cs_hospital_general.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Callaway and Sant'Anna simple ATT 상급종합병원}
+                \input{meeting_cs_hospital_tertiary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Callaway and Sant'Anna simple ATT 의사}
+                \input{meeting_cs_doctor.tex}
+            \end{table}
+        
+        \subsection{Event Study}
+            \begin{table}[H]
+                \centering
+                \caption{Event Study: 의원}
+                \input{meeting_event_hospital_clinic.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Event Study: 병원}
+                \input{meeting_event_hospital_secondary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Event Study: 종합병원}
+                \input{meeting_event_hospital_general.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Event Study: 상급종합병원}
+                \input{meeting_event_hospital_tertiary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Event Study: 의사}
+                \input{meeting_event_doctor.tex}
+            \end{table}
+
+\end{document}

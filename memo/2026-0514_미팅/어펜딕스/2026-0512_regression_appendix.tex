@@ -1,0 +1,1464 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{kotex}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\begin{document}
+\tableofcontents
+\newpage
+\section{2026-05-12 Regression Appendix}
+이 appendix는 2026-05-12 분석에서 사용한 회귀식들을 미팅자료 형식으로 재정리한 것이다.
+병원 표는 병원 type별로 분리하였고, 각 표의 열은 hospital\_no, net\_entry, exit\_no, exit\_rate, entry\_no, entry\_rate이다.
+의사 표는 인턴, 레지던트, 전문의, 일반의를 하나의 표에 정리하였다.
+모든 회귀식은 서울, 경기, 인천, 제주를 제외하고 region fixed effects, year fixed effects, log population control을 포함한다.
+
+\subsection{Regression 1. Continuous Saving Model}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 1. Continuous Saving Model: 의원}
+\input{tables/reg01_continuous_saving_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 1. Continuous Saving Model: 병원}
+\input{tables/reg01_continuous_saving_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 1. Continuous Saving Model: 종합병원}
+\input{tables/reg01_continuous_saving_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 1. Continuous Saving Model: 상급종합병원}
+\input{tables/reg01_continuous_saving_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 1. Continuous Saving Model: 의사}
+\input{tables/reg01_continuous_saving_doctor.tex}
+\end{table}
+
+\subsection{Regression 2. Two-Hour Access Model}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta Within2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 2. Two-Hour Access Model: 의원}
+\input{tables/reg02_within2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 2. Two-Hour Access Model: 병원}
+\input{tables/reg02_within2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 2. Two-Hour Access Model: 종합병원}
+\input{tables/reg02_within2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 2. Two-Hour Access Model: 상급종합병원}
+\input{tables/reg02_within2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 2. Two-Hour Access Model: 의사}
+\input{tables/reg02_within2h_doctor.tex}
+\end{table}
+
+\subsection{Regression 3. Hybrid Saving + Two-Hour Access Model}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta Within2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 3. Hybrid Saving + Two-Hour Access Model: 의원}
+\input{tables/reg03_hybrid_saving_within2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 3. Hybrid Saving + Two-Hour Access Model: 병원}
+\input{tables/reg03_hybrid_saving_within2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 3. Hybrid Saving + Two-Hour Access Model: 종합병원}
+\input{tables/reg03_hybrid_saving_within2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 3. Hybrid Saving + Two-Hour Access Model: 상급종합병원}
+\input{tables/reg03_hybrid_saving_within2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 3. Hybrid Saving + Two-Hour Access Model: 의사}
+\input{tables/reg03_hybrid_saving_within2h_doctor.tex}
+\end{table}
+
+\subsection{Regression 4. KTX Two-Hour Access Model}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta KTXWithin2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 4. KTX Two-Hour Access Model: 의원}
+\input{tables/reg04_ktx_within2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 4. KTX Two-Hour Access Model: 병원}
+\input{tables/reg04_ktx_within2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 4. KTX Two-Hour Access Model: 종합병원}
+\input{tables/reg04_ktx_within2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 4. KTX Two-Hour Access Model: 상급종합병원}
+\input{tables/reg04_ktx_within2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 4. KTX Two-Hour Access Model: 의사}
+\input{tables/reg04_ktx_within2h_doctor.tex}
+\end{table}
+
+\subsection{Regression 5. Hybrid Saving + KTX Two-Hour Access Model}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta KTXWithin2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 5. Hybrid Saving + KTX Two-Hour Access Model: 의원}
+\input{tables/reg05_hybrid_saving_ktx_within2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 5. Hybrid Saving + KTX Two-Hour Access Model: 병원}
+\input{tables/reg05_hybrid_saving_ktx_within2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 5. Hybrid Saving + KTX Two-Hour Access Model: 종합병원}
+\input{tables/reg05_hybrid_saving_ktx_within2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 5. Hybrid Saving + KTX Two-Hour Access Model: 상급종합병원}
+\input{tables/reg05_hybrid_saving_ktx_within2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 5. Hybrid Saving + KTX Two-Hour Access Model: 의사}
+\input{tables/reg05_hybrid_saving_ktx_within2h_doctor.tex}
+\end{table}
+
+\subsection{Regression 6. Saving Toward Two-Hour Threshold Model}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta SavingTo2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 6. Saving Toward Two-Hour Threshold Model: 의원}
+\input{tables/reg06_saving_to_2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 6. Saving Toward Two-Hour Threshold Model: 병원}
+\input{tables/reg06_saving_to_2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 6. Saving Toward Two-Hour Threshold Model: 종합병원}
+\input{tables/reg06_saving_to_2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 6. Saving Toward Two-Hour Threshold Model: 상급종합병원}
+\input{tables/reg06_saving_to_2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 6. Saving Toward Two-Hour Threshold Model: 의사}
+\input{tables/reg06_saving_to_2h_doctor.tex}
+\end{table}
+
+\subsection{Regression 7. Threshold Access Model, 1.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta Within1.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 1.5 Hours: 의원}
+\input{tables/reg07_threshold_1p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 1.5 Hours: 병원}
+\input{tables/reg07_threshold_1p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 1.5 Hours: 종합병원}
+\input{tables/reg07_threshold_1p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 1.5 Hours: 상급종합병원}
+\input{tables/reg07_threshold_1p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 1.5 Hours: 의사}
+\input{tables/reg07_threshold_1p5h_doctor.tex}
+\end{table}
+
+\subsection{Regression 7. Threshold Access Model, 2 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta Within2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2 Hours: 의원}
+\input{tables/reg07_threshold_2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2 Hours: 병원}
+\input{tables/reg07_threshold_2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2 Hours: 종합병원}
+\input{tables/reg07_threshold_2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2 Hours: 상급종합병원}
+\input{tables/reg07_threshold_2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2 Hours: 의사}
+\input{tables/reg07_threshold_2h_doctor.tex}
+\end{table}
+
+\subsection{Regression 7. Threshold Access Model, 2.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta Within2.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2.5 Hours: 의원}
+\input{tables/reg07_threshold_2p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2.5 Hours: 병원}
+\input{tables/reg07_threshold_2p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2.5 Hours: 종합병원}
+\input{tables/reg07_threshold_2p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2.5 Hours: 상급종합병원}
+\input{tables/reg07_threshold_2p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 2.5 Hours: 의사}
+\input{tables/reg07_threshold_2p5h_doctor.tex}
+\end{table}
+
+\subsection{Regression 7. Threshold Access Model, 3 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta Within3h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 3 Hours: 의원}
+\input{tables/reg07_threshold_3h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 3 Hours: 병원}
+\input{tables/reg07_threshold_3h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 3 Hours: 종합병원}
+\input{tables/reg07_threshold_3h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 3 Hours: 상급종합병원}
+\input{tables/reg07_threshold_3h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 7. Threshold Access Model, 3 Hours: 의사}
+\input{tables/reg07_threshold_3h_doctor.tex}
+\end{table}
+
+\subsection{Regression 8. Local Projection with Continuous Shock, h = 0}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\beta_h ShockSaving_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 0: 의원}
+\input{tables/reg08_lp_shocksaving_h0_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 0: 병원}
+\input{tables/reg08_lp_shocksaving_h0_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 0: 종합병원}
+\input{tables/reg08_lp_shocksaving_h0_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 0: 상급종합병원}
+\input{tables/reg08_lp_shocksaving_h0_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 0: 의사}
+\input{tables/reg08_lp_shocksaving_h0_doctor.tex}
+\end{table}
+
+\subsection{Regression 8. Local Projection with Continuous Shock, h = 1}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\beta_h ShockSaving_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 1: 의원}
+\input{tables/reg08_lp_shocksaving_h1_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 1: 병원}
+\input{tables/reg08_lp_shocksaving_h1_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 1: 종합병원}
+\input{tables/reg08_lp_shocksaving_h1_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 1: 상급종합병원}
+\input{tables/reg08_lp_shocksaving_h1_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 1: 의사}
+\input{tables/reg08_lp_shocksaving_h1_doctor.tex}
+\end{table}
+
+\subsection{Regression 8. Local Projection with Continuous Shock, h = 2}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\beta_h ShockSaving_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 2: 의원}
+\input{tables/reg08_lp_shocksaving_h2_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 2: 병원}
+\input{tables/reg08_lp_shocksaving_h2_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 2: 종합병원}
+\input{tables/reg08_lp_shocksaving_h2_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 2: 상급종합병원}
+\input{tables/reg08_lp_shocksaving_h2_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 2: 의사}
+\input{tables/reg08_lp_shocksaving_h2_doctor.tex}
+\end{table}
+
+\subsection{Regression 8. Local Projection with Continuous Shock, h = 3}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\beta_h ShockSaving_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 3: 의원}
+\input{tables/reg08_lp_shocksaving_h3_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 3: 병원}
+\input{tables/reg08_lp_shocksaving_h3_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 3: 종합병원}
+\input{tables/reg08_lp_shocksaving_h3_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 3: 상급종합병원}
+\input{tables/reg08_lp_shocksaving_h3_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 3: 의사}
+\input{tables/reg08_lp_shocksaving_h3_doctor.tex}
+\end{table}
+
+\subsection{Regression 8. Local Projection with Continuous Shock, h = 4}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\beta_h ShockSaving_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 4: 의원}
+\input{tables/reg08_lp_shocksaving_h4_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 4: 병원}
+\input{tables/reg08_lp_shocksaving_h4_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 4: 종합병원}
+\input{tables/reg08_lp_shocksaving_h4_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 4: 상급종합병원}
+\input{tables/reg08_lp_shocksaving_h4_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 4: 의사}
+\input{tables/reg08_lp_shocksaving_h4_doctor.tex}
+\end{table}
+
+\subsection{Regression 8. Local Projection with Continuous Shock, h = 5}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\beta_h ShockSaving_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 5: 의원}
+\input{tables/reg08_lp_shocksaving_h5_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 5: 병원}
+\input{tables/reg08_lp_shocksaving_h5_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 5: 종합병원}
+\input{tables/reg08_lp_shocksaving_h5_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 5: 상급종합병원}
+\input{tables/reg08_lp_shocksaving_h5_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 8. Local Projection with Continuous Shock, h = 5: 의사}
+\input{tables/reg08_lp_shocksaving_h5_doctor.tex}
+\end{table}
+
+\subsection{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 0}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\delta_h Cross2h_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 0: 의원}
+\input{tables/reg09_lp_cross2h_h0_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 0: 병원}
+\input{tables/reg09_lp_cross2h_h0_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 0: 종합병원}
+\input{tables/reg09_lp_cross2h_h0_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 0: 상급종합병원}
+\input{tables/reg09_lp_cross2h_h0_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 0: 의사}
+\input{tables/reg09_lp_cross2h_h0_doctor.tex}
+\end{table}
+
+\subsection{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 1}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\delta_h Cross2h_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 1: 의원}
+\input{tables/reg09_lp_cross2h_h1_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 1: 병원}
+\input{tables/reg09_lp_cross2h_h1_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 1: 종합병원}
+\input{tables/reg09_lp_cross2h_h1_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 1: 상급종합병원}
+\input{tables/reg09_lp_cross2h_h1_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 1: 의사}
+\input{tables/reg09_lp_cross2h_h1_doctor.tex}
+\end{table}
+
+\subsection{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 2}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\delta_h Cross2h_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 2: 의원}
+\input{tables/reg09_lp_cross2h_h2_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 2: 병원}
+\input{tables/reg09_lp_cross2h_h2_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 2: 종합병원}
+\input{tables/reg09_lp_cross2h_h2_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 2: 상급종합병원}
+\input{tables/reg09_lp_cross2h_h2_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 2: 의사}
+\input{tables/reg09_lp_cross2h_h2_doctor.tex}
+\end{table}
+
+\subsection{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 3}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\delta_h Cross2h_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 3: 의원}
+\input{tables/reg09_lp_cross2h_h3_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 3: 병원}
+\input{tables/reg09_lp_cross2h_h3_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 3: 종합병원}
+\input{tables/reg09_lp_cross2h_h3_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 3: 상급종합병원}
+\input{tables/reg09_lp_cross2h_h3_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 3: 의사}
+\input{tables/reg09_lp_cross2h_h3_doctor.tex}
+\end{table}
+
+\subsection{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 4}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\delta_h Cross2h_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 4: 의원}
+\input{tables/reg09_lp_cross2h_h4_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 4: 병원}
+\input{tables/reg09_lp_cross2h_h4_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 4: 종합병원}
+\input{tables/reg09_lp_cross2h_h4_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 4: 상급종합병원}
+\input{tables/reg09_lp_cross2h_h4_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 4: 의사}
+\input{tables/reg09_lp_cross2h_h4_doctor.tex}
+\end{table}
+
+\subsection{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 5}
+\begin{align*}
+    Y_{i,t+h}-Y_{i,t-1}=\alpha_i^h+\tau_t^h+\delta_h Cross2h_{it}+\gamma_h\log(Population_{it})+\epsilon_{i,t+h}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 5: 의원}
+\input{tables/reg09_lp_cross2h_h5_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 5: 병원}
+\input{tables/reg09_lp_cross2h_h5_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 5: 종합병원}
+\input{tables/reg09_lp_cross2h_h5_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 5: 상급종합병원}
+\input{tables/reg09_lp_cross2h_h5_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 9. Local Projection with Two-Hour Crossing Shock, h = 5: 의사}
+\input{tables/reg09_lp_cross2h_h5_doctor.tex}
+\end{table}
+
+\subsection{Regression 10. KTX Chosen Model}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta KTXChosen_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Regression 10. KTX Chosen Model: 의원}
+\input{tables/reg10_ktx_chosen_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 10. KTX Chosen Model: 병원}
+\input{tables/reg10_ktx_chosen_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 10. KTX Chosen Model: 종합병원}
+\input{tables/reg10_ktx_chosen_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 10. KTX Chosen Model: 상급종합병원}
+\input{tables/reg10_ktx_chosen_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Regression 10. KTX Chosen Model: 의사}
+\input{tables/reg10_ktx_chosen_doctor.tex}
+\end{table}
+
+\subsection{Robustness 1. Continuous Saving, Excluding Already-Treated Regions}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions with $Within2h_{i,2007}=1$ or $KTXChosen_{i,2007}=1$ are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 1. Continuous Saving, Excluding Already-Treated Regions: 의원}
+\input{tables/rob01_saving_excluding_already_treated_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 1. Continuous Saving, Excluding Already-Treated Regions: 병원}
+\input{tables/rob01_saving_excluding_already_treated_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 1. Continuous Saving, Excluding Already-Treated Regions: 종합병원}
+\input{tables/rob01_saving_excluding_already_treated_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 1. Continuous Saving, Excluding Already-Treated Regions: 상급종합병원}
+\input{tables/rob01_saving_excluding_already_treated_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 1. Continuous Saving, Excluding Already-Treated Regions: 의사}
+\input{tables/rob01_saving_excluding_already_treated_doctor.tex}
+\end{table}
+
+\subsection{Robustness 2. Threshold Access, 1.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta Within1.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already within 1.5 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 1.5 Hours: 의원}
+\input{tables/rob02_threshold_1p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 1.5 Hours: 병원}
+\input{tables/rob02_threshold_1p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 1.5 Hours: 종합병원}
+\input{tables/rob02_threshold_1p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 1.5 Hours: 상급종합병원}
+\input{tables/rob02_threshold_1p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 1.5 Hours: 의사}
+\input{tables/rob02_threshold_1p5h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 3. Hybrid Saving + Threshold Access, 1.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta Within1.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already within 1.5 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 1.5 Hours: 의원}
+\input{tables/rob03_hybrid_threshold_1p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 1.5 Hours: 병원}
+\input{tables/rob03_hybrid_threshold_1p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 1.5 Hours: 종합병원}
+\input{tables/rob03_hybrid_threshold_1p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 1.5 Hours: 상급종합병원}
+\input{tables/rob03_hybrid_threshold_1p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 1.5 Hours: 의사}
+\input{tables/rob03_hybrid_threshold_1p5h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 2. Threshold Access, 2 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta Within2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already within 2 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2 Hours: 의원}
+\input{tables/rob02_threshold_2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2 Hours: 병원}
+\input{tables/rob02_threshold_2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2 Hours: 종합병원}
+\input{tables/rob02_threshold_2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2 Hours: 상급종합병원}
+\input{tables/rob02_threshold_2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2 Hours: 의사}
+\input{tables/rob02_threshold_2h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 3. Hybrid Saving + Threshold Access, 2 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta Within2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already within 2 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2 Hours: 의원}
+\input{tables/rob03_hybrid_threshold_2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2 Hours: 병원}
+\input{tables/rob03_hybrid_threshold_2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2 Hours: 종합병원}
+\input{tables/rob03_hybrid_threshold_2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2 Hours: 상급종합병원}
+\input{tables/rob03_hybrid_threshold_2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2 Hours: 의사}
+\input{tables/rob03_hybrid_threshold_2h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 2. Threshold Access, 2.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta Within2.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already within 2.5 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2.5 Hours: 의원}
+\input{tables/rob02_threshold_2p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2.5 Hours: 병원}
+\input{tables/rob02_threshold_2p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2.5 Hours: 종합병원}
+\input{tables/rob02_threshold_2p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2.5 Hours: 상급종합병원}
+\input{tables/rob02_threshold_2p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 2.5 Hours: 의사}
+\input{tables/rob02_threshold_2p5h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 3. Hybrid Saving + Threshold Access, 2.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta Within2.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already within 2.5 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2.5 Hours: 의원}
+\input{tables/rob03_hybrid_threshold_2p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2.5 Hours: 병원}
+\input{tables/rob03_hybrid_threshold_2p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2.5 Hours: 종합병원}
+\input{tables/rob03_hybrid_threshold_2p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2.5 Hours: 상급종합병원}
+\input{tables/rob03_hybrid_threshold_2p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 2.5 Hours: 의사}
+\input{tables/rob03_hybrid_threshold_2p5h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 2. Threshold Access, 3 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta Within3h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already within 3 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 3 Hours: 의원}
+\input{tables/rob02_threshold_3h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 3 Hours: 병원}
+\input{tables/rob02_threshold_3h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 3 Hours: 종합병원}
+\input{tables/rob02_threshold_3h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 3 Hours: 상급종합병원}
+\input{tables/rob02_threshold_3h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 2. Threshold Access, 3 Hours: 의사}
+\input{tables/rob02_threshold_3h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 3. Hybrid Saving + Threshold Access, 3 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta Within3h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already within 3 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 3 Hours: 의원}
+\input{tables/rob03_hybrid_threshold_3h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 3 Hours: 병원}
+\input{tables/rob03_hybrid_threshold_3h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 3 Hours: 종합병원}
+\input{tables/rob03_hybrid_threshold_3h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 3 Hours: 상급종합병원}
+\input{tables/rob03_hybrid_threshold_3h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 3. Hybrid Saving + Threshold Access, 3 Hours: 의사}
+\input{tables/rob03_hybrid_threshold_3h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 4. KTX Threshold Access, 1.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta KTXWithin1.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already KTX-within 1.5 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 1.5 Hours: 의원}
+\input{tables/rob04_ktx_threshold_1p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 1.5 Hours: 병원}
+\input{tables/rob04_ktx_threshold_1p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 1.5 Hours: 종합병원}
+\input{tables/rob04_ktx_threshold_1p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 1.5 Hours: 상급종합병원}
+\input{tables/rob04_ktx_threshold_1p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 1.5 Hours: 의사}
+\input{tables/rob04_ktx_threshold_1p5h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 5. Hybrid Saving + KTX Threshold Access, 1.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta KTXWithin1.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already KTX-within 1.5 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 1.5 Hours: 의원}
+\input{tables/rob05_hybrid_ktx_threshold_1p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 1.5 Hours: 병원}
+\input{tables/rob05_hybrid_ktx_threshold_1p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 1.5 Hours: 종합병원}
+\input{tables/rob05_hybrid_ktx_threshold_1p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 1.5 Hours: 상급종합병원}
+\input{tables/rob05_hybrid_ktx_threshold_1p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 1.5 Hours: 의사}
+\input{tables/rob05_hybrid_ktx_threshold_1p5h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 4. KTX Threshold Access, 2 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta KTXWithin2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already KTX-within 2 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2 Hours: 의원}
+\input{tables/rob04_ktx_threshold_2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2 Hours: 병원}
+\input{tables/rob04_ktx_threshold_2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2 Hours: 종합병원}
+\input{tables/rob04_ktx_threshold_2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2 Hours: 상급종합병원}
+\input{tables/rob04_ktx_threshold_2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2 Hours: 의사}
+\input{tables/rob04_ktx_threshold_2h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 5. Hybrid Saving + KTX Threshold Access, 2 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta KTXWithin2h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already KTX-within 2 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2 Hours: 의원}
+\input{tables/rob05_hybrid_ktx_threshold_2h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2 Hours: 병원}
+\input{tables/rob05_hybrid_ktx_threshold_2h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2 Hours: 종합병원}
+\input{tables/rob05_hybrid_ktx_threshold_2h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2 Hours: 상급종합병원}
+\input{tables/rob05_hybrid_ktx_threshold_2h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2 Hours: 의사}
+\input{tables/rob05_hybrid_ktx_threshold_2h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 4. KTX Threshold Access, 2.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta KTXWithin2.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already KTX-within 2.5 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2.5 Hours: 의원}
+\input{tables/rob04_ktx_threshold_2p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2.5 Hours: 병원}
+\input{tables/rob04_ktx_threshold_2p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2.5 Hours: 종합병원}
+\input{tables/rob04_ktx_threshold_2p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2.5 Hours: 상급종합병원}
+\input{tables/rob04_ktx_threshold_2p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 2.5 Hours: 의사}
+\input{tables/rob04_ktx_threshold_2p5h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 5. Hybrid Saving + KTX Threshold Access, 2.5 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta KTXWithin2.5h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already KTX-within 2.5 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2.5 Hours: 의원}
+\input{tables/rob05_hybrid_ktx_threshold_2p5h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2.5 Hours: 병원}
+\input{tables/rob05_hybrid_ktx_threshold_2p5h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2.5 Hours: 종합병원}
+\input{tables/rob05_hybrid_ktx_threshold_2p5h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2.5 Hours: 상급종합병원}
+\input{tables/rob05_hybrid_ktx_threshold_2p5h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 2.5 Hours: 의사}
+\input{tables/rob05_hybrid_ktx_threshold_2p5h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 4. KTX Threshold Access, 3 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta KTXWithin3h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already KTX-within 3 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 3 Hours: 의원}
+\input{tables/rob04_ktx_threshold_3h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 3 Hours: 병원}
+\input{tables/rob04_ktx_threshold_3h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 3 Hours: 종합병원}
+\input{tables/rob04_ktx_threshold_3h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 3 Hours: 상급종합병원}
+\input{tables/rob04_ktx_threshold_3h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 4. KTX Threshold Access, 3 Hours: 의사}
+\input{tables/rob04_ktx_threshold_3h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 5. Hybrid Saving + KTX Threshold Access, 3 Hours}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta Saving_{it}+\delta KTXWithin3h_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions already KTX-within 3 hours in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 3 Hours: 의원}
+\input{tables/rob05_hybrid_ktx_threshold_3h_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 3 Hours: 병원}
+\input{tables/rob05_hybrid_ktx_threshold_3h_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 3 Hours: 종합병원}
+\input{tables/rob05_hybrid_ktx_threshold_3h_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 3 Hours: 상급종합병원}
+\input{tables/rob05_hybrid_ktx_threshold_3h_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 5. Hybrid Saving + KTX Threshold Access, 3 Hours: 의사}
+\input{tables/rob05_hybrid_ktx_threshold_3h_doctor.tex}
+\end{table}
+
+\subsection{Robustness 6. KTX Chosen, Excluding Baseline KTX-Chosen Regions}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\delta KTXChosen_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+Regions where KTX was already the fastest route in 2007 are excluded.
+\begin{table}[H]
+\centering
+\caption{Robustness 6. KTX Chosen, Excluding Baseline KTX-Chosen Regions: 의원}
+\input{tables/rob06_ktx_chosen_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 6. KTX Chosen, Excluding Baseline KTX-Chosen Regions: 병원}
+\input{tables/rob06_ktx_chosen_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 6. KTX Chosen, Excluding Baseline KTX-Chosen Regions: 종합병원}
+\input{tables/rob06_ktx_chosen_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 6. KTX Chosen, Excluding Baseline KTX-Chosen Regions: 상급종합병원}
+\input{tables/rob06_ktx_chosen_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Robustness 6. KTX Chosen, Excluding Baseline KTX-Chosen Regions: 의사}
+\input{tables/rob06_ktx_chosen_doctor.tex}
+\end{table}
+
+\subsection{Direct Travel-Time Level Model}
+\begin{align*}
+    Y_{it}=\alpha_i+\tau_t+\beta TravelTime_{it}+\gamma\log(Population_{it})+\epsilon_{it}
+\end{align*}
+\begin{table}[H]
+\centering
+\caption{Direct Travel-Time Level Model: 의원}
+\input{tables/direct_travel_time_level_hospital_clinic.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Direct Travel-Time Level Model: 병원}
+\input{tables/direct_travel_time_level_hospital_secondary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Direct Travel-Time Level Model: 종합병원}
+\input{tables/direct_travel_time_level_hospital_general.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Direct Travel-Time Level Model: 상급종합병원}
+\input{tables/direct_travel_time_level_hospital_tertiary.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Direct Travel-Time Level Model: 의사}
+\input{tables/direct_travel_time_level_doctor.tex}
+\end{table}
+
+\end{document}

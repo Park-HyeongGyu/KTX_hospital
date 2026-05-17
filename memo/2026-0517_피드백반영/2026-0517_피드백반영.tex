@@ -1,0 +1,454 @@
+\documentclass[a4paper, 10pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{kotex}
+\usepackage{float}
+
+\begin{document}
+
+    \section{$Y$ per capita}
+        이전 미팅자료의 section 3과 동일하게 세 가지 접근성 변수를 사용하되,
+        종속변수를 인구 만 명당 outcome으로 바꾸어 추정하였다.
+        병원 분석에서 $hospital\_no$, $net\_entry$, $exit\_no$,
+        $entry\_no$는 인구 만 명당 값으로 변환하였다. $exit\_rate$와
+        $entry\_rate$는 이미 비율 변수이므로 원래 단위를 유지하였다. 의사 분석에서는
+        각 doctor level별 의사 수를 인구 만 명당 의사 수로 변환하였다.
+
+        모든 회귀식은 서울, 경기, 인천, 제주를 제외한 2007--2025년 시군구-연도 panel을
+        사용한다. 이전 분석과 달리 종속변수가 population으로 normalize되어 있으므로
+        $\log(Population_{it})$ control은 포함하지 않는다. 모든 specification에는
+        region fixed effects와 year fixed effects를 포함하고, standard error는 region
+        level에서 cluster하였다.
+
+        \subsection{Travel time}
+            첫 번째 분석은 terminal까지의 절대적 접근시간과 인구 만 명당 의료공급 사이의
+            관계를 추정한다.
+            \begin{align*}
+                Y^{pc}_{it}
+                =
+                \alpha_i + \tau_t
+                + \beta TravelTime_{it}
+                + \epsilon_{it}
+            \end{align*}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel Time: 의원}
+                \input{tables/pc_travel_time_hospital_clinic.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel Time: 병원}
+                \input{tables/pc_travel_time_hospital_secondary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel Time: 종합병원}
+                \input{tables/pc_travel_time_hospital_general.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel Time: 상급종합병원}
+                \input{tables/pc_travel_time_hospital_tertiary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel Time: 의사}
+                \input{tables/pc_travel_time_doctor.tex}
+            \end{table}
+
+        \subsection{Travel-time saving}
+            두 번째 분석은 2007년 대비 terminal 접근시간 단축폭과 인구 만 명당 의료공급
+            사이의 관계를 추정한다.
+            \begin{align*}
+                Y^{pc}_{it}
+                =
+                \alpha_i + \tau_t
+                + \beta Saving_{it}
+                + \epsilon_{it}
+            \end{align*}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel-Time Saving: 의원}
+                \input{tables/pc_saving_hospital_clinic.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel-Time Saving: 병원}
+                \input{tables/pc_saving_hospital_secondary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel-Time Saving: 종합병원}
+                \input{tables/pc_saving_hospital_general.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel-Time Saving: 상급종합병원}
+                \input{tables/pc_saving_hospital_tertiary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, Travel-Time Saving: 의사}
+                \input{tables/pc_saving_doctor.tex}
+            \end{table}
+
+        \subsection{KTX within two hours}
+            세 번째 분석은 KTX를 이용한 terminal 접근시간이 2시간 이하이고 자동차보다
+            빠른 경우를 discrete treatment로 정의하여 추정한다.
+            \begin{align*}
+                Y^{pc}_{it}
+                =
+                \alpha_i + \tau_t
+                + \delta KTXWithin2h_{it}
+                + \epsilon_{it}
+            \end{align*}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, KTX Within Two Hours: 의원}
+                \input{tables/pc_ktx_within2h_hospital_clinic.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, KTX Within Two Hours: 병원}
+                \input{tables/pc_ktx_within2h_hospital_secondary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, KTX Within Two Hours: 종합병원}
+                \input{tables/pc_ktx_within2h_hospital_general.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, KTX Within Two Hours: 상급종합병원}
+                \input{tables/pc_ktx_within2h_hospital_tertiary.tex}
+            \end{table}
+
+            \begin{table}[H]
+                \centering
+                \caption{Per-Capita Outcome, KTX Within Two Hours: 의사}
+                \input{tables/pc_ktx_within2h_doctor.tex}
+            \end{table}
+
+    \section{Difference From 2007}
+        이 섹션에서는 2007년 대비 변화분을 종속변수로 사용한다. 분석 대상 outcome은
+        stock 변수로 제한하였다. 병원 분석에서는 의원, 병원, 종합병원, 상급종합병원의
+        병원 수 변화를 사용하고, 의사 분석에서는 인턴, 레지던트, 전문의, 일반의 수의
+        변화를 사용한다. 독립변수는 2007년 대비 terminal 접근시간 단축폭인
+        $Saving_{it}$만 사용한다.
+
+        population control 역시 2007년 대비 변화분으로 넣는다. 즉, 회귀식에는
+        $\log(Population_{it}) - \log(Population_{i,2007})$가 포함된다. 모든 회귀식은
+        region fixed effects와 year fixed effects를 포함하고, standard error는 region
+        level에서 cluster하였다.
+
+        병원 stock 변수에 대한 추정식은 다음과 같다.
+        \begin{align*}
+            HospitalNo^m_{it} - HospitalNo^m_{i,2007}
+            =
+            \alpha_i + \tau_t
+            + \beta Saving_{it}
+            + \gamma \left[
+                \log(Population_{it}) - \log(Population_{i,2007})
+            \right]
+            + \epsilon_{it}
+        \end{align*}
+        여기서 $m$은 의원, 병원, 종합병원, 상급종합병원을 의미한다.
+
+        \begin{table}[H]
+            \centering
+            \caption{Difference From 2007, Travel-Time Saving: 병원 수}
+            \input{tables/diff2007_saving_hospital.tex}
+        \end{table}
+
+        의사 stock 변수에 대한 추정식은 다음과 같다.
+        \begin{align*}
+            DoctorNo^d_{it} - DoctorNo^d_{i,2007}
+            =
+            \alpha_i + \tau_t
+            + \beta Saving_{it}
+            + \gamma \left[
+                \log(Population_{it}) - \log(Population_{i,2007})
+            \right]
+            + \epsilon_{it}
+        \end{align*}
+        여기서 $d$는 인턴, 레지던트, 전문의, 일반의를 의미한다.
+
+        \begin{table}[H]
+            \centering
+            \caption{Difference From 2007, Travel-Time Saving: 의사 수}
+            \input{tables/diff2007_saving_doctor.tex}
+        \end{table}
+
+    \section{Population as Outcome}
+        이 섹션에서는 의료공급 변수가 아니라 지역 인구 자체를 종속변수로 사용한다.
+        구체적으로 $\log(Population_{it})$을 outcome으로 두고, 앞선 분석에서 사용한
+        세 가지 접근성 변수인 $TravelTime_{it}$, $Saving_{it}$,
+        $KTXWithin2h_{it}$를 각각 독립변수로 넣어 추정하였다. 이 분석에서는
+        $\log(Population_{it})$이 종속변수이므로 population control은 포함하지 않는다.
+
+        추정식은 다음과 같다.
+        \begin{align*}
+            \log(Population_{it})
+            =
+            \alpha_i + \tau_t
+            + \beta Access_{it}
+            + \epsilon_{it}
+        \end{align*}
+        여기서 $Access_{it}$는 $TravelTime_{it}$, $Saving_{it}$,
+        $KTXWithin2h_{it}$ 중 하나를 의미한다. 모든 회귀식은 서울, 경기, 인천, 제주를
+        제외한 2007--2025년 시군구-연도 panel을 사용하고, region fixed effects와
+        year fixed effects를 포함하며, standard error는 region level에서 cluster하였다.
+
+        \begin{table}[H]
+            \centering
+            \caption{Population as Outcome}
+            \input{tables/population_as_outcome.tex}
+        \end{table}
+
+        추가로 $KTXWithin2h_{it}$에서 관측된 계수가 특정 threshold 선택에 민감한지 확인하기
+        위해 threshold를 1시간, 1.5시간, 2시간, 2.5시간, 3시간, 3.5시간, 4시간으로
+        바꾸어 동일한 회귀식을 추정하였다. 각 threshold 변수는 KTX를 이용한 terminal
+        접근시간이 해당 threshold 이하이고, 동시에 자동차보다 KTX가 빠른 경우 1을 갖는다.
+        1시간 threshold는 region fixed effects와 year fixed effects에 의해 완전히 설명되어
+        별도의 계수를 추정할 수 없었다.
+
+        \begin{table}[H]
+            \centering
+            \caption{Population as Outcome, KTX Within Threshold Robustness}
+            \input{tables/population_as_outcome_ktx_thresholds.tex}
+        \end{table}
+
+    \appendix
+
+    \section{Hospital Regressions Using All Regions}
+        이 appendix에서는 병원 회귀식에 대해, 해당 병원 type의 병원 수가 모든 연도에서 0인
+        지역도 제외하지 않고 서울, 경기, 인천, 제주를 제외한 160개 지역 전체를 사용하여
+        동일한 분석을 반복한다. 의사 회귀식은 본문 분석에서도 이미 160개 지역 전체를 사용하고
+        있으므로 여기서는 병원 회귀식만 보고한다. 단, $EntryRate_{it}$와 $ExitRate_{it}$는
+        원자료에서 rate가 정의된 관측치만 사용되므로 표의 region 수가 160보다 작을 수 있다.
+
+        \subsection{Original Section 3 Specifications}
+            이 subsection은 이전 미팅자료 section 3의 세 가지 접근성 변수
+            $TravelTime_{it}$, $Saving_{it}$, $KTXWithin2h_{it}$를 독립변수로 사용한
+            병원 회귀식이다. 종속변수는 병원 수, 순진입, 폐업 수, 폐업률, 진입 수, 진입률이며,
+            병원 수는 $\log(HospitalNo_{it}+1)$로 정의하였다. 모든 회귀식은
+            $\log(Population_{it})$ control, region fixed effects, year fixed effects를
+            포함하고 standard error는 region level에서 cluster하였다.
+
+            \begin{align*}
+                Y^m_{it}
+                =
+                \alpha_i + \tau_t
+                + \beta Access_{it}
+                + \gamma \log(Population_{it})
+                + \epsilon_{it}
+            \end{align*}
+            여기서 $m$은 의원, 병원, 종합병원, 상급종합병원을 의미하고,
+            $Access_{it}$는 $TravelTime_{it}$, $Saving_{it}$, $KTXWithin2h_{it}$ 중 하나이다.
+
+            \subsubsection{Travel Time}
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, Travel Time: 의원}
+                    \input{tables/appendix_all_regions_travel_time_hospital_clinic.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, Travel Time: 병원}
+                    \input{tables/appendix_all_regions_travel_time_hospital_secondary.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, Travel Time: 종합병원}
+                    \input{tables/appendix_all_regions_travel_time_hospital_general.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, Travel Time: 상급종합병원}
+                    \input{tables/appendix_all_regions_travel_time_hospital_tertiary.tex}
+                \end{table}
+
+            \subsubsection{Travel-Time Saving}
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, Travel-Time Saving: 의원}
+                    \input{tables/appendix_all_regions_saving_hospital_clinic.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, Travel-Time Saving: 병원}
+                    \input{tables/appendix_all_regions_saving_hospital_secondary.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, Travel-Time Saving: 종합병원}
+                    \input{tables/appendix_all_regions_saving_hospital_general.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, Travel-Time Saving: 상급종합병원}
+                    \input{tables/appendix_all_regions_saving_hospital_tertiary.tex}
+                \end{table}
+
+            \subsubsection{KTX Within Two Hours}
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, KTX Within Two Hours: 의원}
+                    \input{tables/appendix_all_regions_ktx_within2h_hospital_clinic.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, KTX Within Two Hours: 병원}
+                    \input{tables/appendix_all_regions_ktx_within2h_hospital_secondary.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, KTX Within Two Hours: 종합병원}
+                    \input{tables/appendix_all_regions_ktx_within2h_hospital_general.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Hospital Regression, KTX Within Two Hours: 상급종합병원}
+                    \input{tables/appendix_all_regions_ktx_within2h_hospital_tertiary.tex}
+                \end{table}
+
+        \subsection{Per-Capita Outcomes}
+            이 subsection은 본문 section 1의 per-capita 분석을 병원 회귀식에 대해 160개 지역
+            전체 샘플로 반복한 것이다. 종속변수는 병원 수, 순진입, 폐업 수, 진입 수를 인구
+            만 명당 값으로 바꾼 변수이고, 폐업률과 진입률은 원래 rate 변수를 그대로 사용하였다.
+            이 분석에서는 종속변수 자체가 인구로 scale되어 있으므로
+            $\log(Population_{it})$ control은 포함하지 않는다.
+
+            \begin{align*}
+                Y^m_{it}
+                =
+                \alpha_i + \tau_t
+                + \beta Access_{it}
+                + \epsilon_{it}
+            \end{align*}
+
+            \subsubsection{Travel Time}
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, Travel Time: 의원}
+                    \input{tables/appendix_all_regions_pc_travel_time_hospital_clinic.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, Travel Time: 병원}
+                    \input{tables/appendix_all_regions_pc_travel_time_hospital_secondary.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, Travel Time: 종합병원}
+                    \input{tables/appendix_all_regions_pc_travel_time_hospital_general.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, Travel Time: 상급종합병원}
+                    \input{tables/appendix_all_regions_pc_travel_time_hospital_tertiary.tex}
+                \end{table}
+
+            \subsubsection{Travel-Time Saving}
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, Travel-Time Saving: 의원}
+                    \input{tables/appendix_all_regions_pc_saving_hospital_clinic.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, Travel-Time Saving: 병원}
+                    \input{tables/appendix_all_regions_pc_saving_hospital_secondary.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, Travel-Time Saving: 종합병원}
+                    \input{tables/appendix_all_regions_pc_saving_hospital_general.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, Travel-Time Saving: 상급종합병원}
+                    \input{tables/appendix_all_regions_pc_saving_hospital_tertiary.tex}
+                \end{table}
+
+            \subsubsection{KTX Within Two Hours}
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, KTX Within Two Hours: 의원}
+                    \input{tables/appendix_all_regions_pc_ktx_within2h_hospital_clinic.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, KTX Within Two Hours: 병원}
+                    \input{tables/appendix_all_regions_pc_ktx_within2h_hospital_secondary.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, KTX Within Two Hours: 종합병원}
+                    \input{tables/appendix_all_regions_pc_ktx_within2h_hospital_general.tex}
+                \end{table}
+
+                \begin{table}[H]
+                    \centering
+                    \caption{All-Region Per-Capita Hospital Regression, KTX Within Two Hours: 상급종합병원}
+                    \input{tables/appendix_all_regions_pc_ktx_within2h_hospital_tertiary.tex}
+                \end{table}
+
+        \subsection{Difference From 2007}
+            이 subsection은 본문 section 2의 2007년 대비 변화분 분석을 병원 stock 변수에 대해
+            160개 지역 전체 샘플로 반복한 것이다. 종속변수는 각 병원 type의 병원 수에서
+            2007년 병원 수를 뺀 값이며, 독립변수는 $Saving_{it}$이다. Control로는
+            $\log(Population_{it}) - \log(Population_{i,2007})$를 포함한다.
+
+            \begin{align*}
+                HospitalNo^m_{it} - HospitalNo^m_{i,2007}
+                =
+                \alpha_i + \tau_t
+                + \beta Saving_{it}
+                + \gamma \left[
+                    \log(Population_{it}) - \log(Population_{i,2007})
+                \right]
+                + \epsilon_{it}
+            \end{align*}
+
+            \begin{table}[H]
+                \centering
+                \caption{All-Region Difference From 2007, Travel-Time Saving: 병원 수}
+                \input{tables/appendix_all_regions_diff2007_saving_hospital.tex}
+            \end{table}
+
+\end{document}

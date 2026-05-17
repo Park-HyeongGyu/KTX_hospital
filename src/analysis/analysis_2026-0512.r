@@ -175,7 +175,47 @@ dbExecute(con, glue("
         MAX(CASE WHEN hospital_type = '의원' THEN hospital_no END)
             AS clinic_no,
         MAX(CASE WHEN hospital_type = '병원' THEN hospital_no END)
-            AS secondary_hospital_no
+            AS secondary_hospital_no,
+        MAX(CASE WHEN hospital_type = '상급종합병원' THEN net_entry END)
+            AS tertiary_net_entry,
+        MAX(CASE WHEN hospital_type = '종합병원' THEN net_entry END)
+            AS general_net_entry,
+        MAX(CASE WHEN hospital_type = '의원' THEN net_entry END)
+            AS clinic_net_entry,
+        MAX(CASE WHEN hospital_type = '병원' THEN net_entry END)
+            AS secondary_net_entry,
+        MAX(CASE WHEN hospital_type = '상급종합병원' THEN exit_no END)
+            AS tertiary_exit_no,
+        MAX(CASE WHEN hospital_type = '종합병원' THEN exit_no END)
+            AS general_exit_no,
+        MAX(CASE WHEN hospital_type = '의원' THEN exit_no END)
+            AS clinic_exit_no,
+        MAX(CASE WHEN hospital_type = '병원' THEN exit_no END)
+            AS secondary_exit_no,
+        MAX(CASE WHEN hospital_type = '상급종합병원' THEN exit_rate END)
+            AS tertiary_exit_rate,
+        MAX(CASE WHEN hospital_type = '종합병원' THEN exit_rate END)
+            AS general_exit_rate,
+        MAX(CASE WHEN hospital_type = '의원' THEN exit_rate END)
+            AS clinic_exit_rate,
+        MAX(CASE WHEN hospital_type = '병원' THEN exit_rate END)
+            AS secondary_exit_rate,
+        MAX(CASE WHEN hospital_type = '상급종합병원' THEN entry_no END)
+            AS tertiary_entry_no,
+        MAX(CASE WHEN hospital_type = '종합병원' THEN entry_no END)
+            AS general_entry_no,
+        MAX(CASE WHEN hospital_type = '의원' THEN entry_no END)
+            AS clinic_entry_no,
+        MAX(CASE WHEN hospital_type = '병원' THEN entry_no END)
+            AS secondary_entry_no,
+        MAX(CASE WHEN hospital_type = '상급종합병원' THEN entry_rate END)
+            AS tertiary_entry_rate,
+        MAX(CASE WHEN hospital_type = '종합병원' THEN entry_rate END)
+            AS general_entry_rate,
+        MAX(CASE WHEN hospital_type = '의원' THEN entry_rate END)
+            AS clinic_entry_rate,
+        MAX(CASE WHEN hospital_type = '병원' THEN entry_rate END)
+            AS secondary_entry_rate
     FROM read_parquet('{path_hospital}')
     GROUP BY region_sido, region_sigungu, year
 "))
@@ -208,6 +248,26 @@ dbExecute(con, "
         h.general_hospital_no,
         h.clinic_no,
         h.secondary_hospital_no,
+        h.tertiary_net_entry,
+        h.general_net_entry,
+        h.clinic_net_entry,
+        h.secondary_net_entry,
+        h.tertiary_exit_no,
+        h.general_exit_no,
+        h.clinic_exit_no,
+        h.secondary_exit_no,
+        h.tertiary_exit_rate,
+        h.general_exit_rate,
+        h.clinic_exit_rate,
+        h.secondary_exit_rate,
+        h.tertiary_entry_no,
+        h.general_entry_no,
+        h.clinic_entry_no,
+        h.secondary_entry_no,
+        h.tertiary_entry_rate,
+        h.general_entry_rate,
+        h.clinic_entry_rate,
+        h.secondary_entry_rate,
         d.intern_no,
         d.resident_no,
         d.specialist_no,
@@ -243,6 +303,61 @@ hospital_outcomes <- list(
     "병원" = "secondary_hospital_no"
 )
 
+hospital_sample_outcomes <- hospital_outcomes
+
+additional_hospital_outcome_sets <- list(
+    net_entry = list(
+        label = "Net Entry",
+        equation_label = "NetEntry",
+        outcomes = list(
+            "상급종합병원" = "tertiary_net_entry",
+            "종합병원" = "general_net_entry",
+            "의원" = "clinic_net_entry",
+            "병원" = "secondary_net_entry"
+        )
+    ),
+    exit_no = list(
+        label = "Exit Count",
+        equation_label = "Exit",
+        outcomes = list(
+            "상급종합병원" = "tertiary_exit_no",
+            "종합병원" = "general_exit_no",
+            "의원" = "clinic_exit_no",
+            "병원" = "secondary_exit_no"
+        )
+    ),
+    exit_rate = list(
+        label = "Exit Rate",
+        equation_label = "ExitRate",
+        outcomes = list(
+            "상급종합병원" = "tertiary_exit_rate",
+            "종합병원" = "general_exit_rate",
+            "의원" = "clinic_exit_rate",
+            "병원" = "secondary_exit_rate"
+        )
+    ),
+    entry_no = list(
+        label = "Entry Count",
+        equation_label = "Entry",
+        outcomes = list(
+            "상급종합병원" = "tertiary_entry_no",
+            "종합병원" = "general_entry_no",
+            "의원" = "clinic_entry_no",
+            "병원" = "secondary_entry_no"
+        )
+    ),
+    entry_rate = list(
+        label = "Entry Rate",
+        equation_label = "EntryRate",
+        outcomes = list(
+            "상급종합병원" = "tertiary_entry_rate",
+            "종합병원" = "general_entry_rate",
+            "의원" = "clinic_entry_rate",
+            "병원" = "secondary_entry_rate"
+        )
+    )
+)
+
 doctor_outcomes <- list(
     "인턴" = "intern_no",
     "레지던트" = "resident_no",
@@ -251,6 +366,7 @@ doctor_outcomes <- list(
 )
 
 coef_dict <- c(
+    "travel_time_hour" = "$TravelTime_{it}$",
     "saving" = "$Saving_{it}$",
     "within1p5h" = "$Within1.5h_{it}$",
     "within2h" = "$Within2h_{it}$",
@@ -290,6 +406,17 @@ make_lp_outcome <- function(data, outcome_var, horizon) {
         mutate(
             y_level = log(.data[[outcome_var]] + 1),
             y = dplyr::lead(y_level, n = horizon) - dplyr::lag(y_level, n = 1)
+        ) %>%
+        ungroup()
+}
+
+make_lp_outcome_level <- function(data, outcome_var, horizon) {
+    data %>%
+        arrange(region, year) %>%
+        group_by(region) %>%
+        mutate(
+            y = dplyr::lead(.data[[outcome_var]], n = horizon) -
+                dplyr::lag(.data[[outcome_var]], n = 1)
         ) %>%
         ungroup()
 }
@@ -397,6 +524,114 @@ run_outcome_models <- function(
             always_zero_region_count = length(always_zero_regions),
             dropped_regions = paste(dropped_regions, collapse = "; "),
             always_zero_regions = paste(always_zero_regions, collapse = "; "),
+            status = status,
+            note = note,
+            stringsAsFactors = FALSE
+        ))
+    }
+
+    models
+}
+
+run_additional_hospital_models <- function(
+    data,
+    outcomes,
+    spec_id,
+    sample_label,
+    treatment_vars,
+    filter_fun = NULL,
+    horizon = NULL,
+    outcome_family = NULL
+) {
+    models <- list()
+
+    for (outcome_label in names(outcomes)) {
+        outcome_var <- outcomes[[outcome_label]]
+        sample_var <- hospital_sample_outcomes[[outcome_label]]
+        df_reg <- clean_sample(data, filter_fun)
+
+        dropped_regions <- character(0)
+
+        region_sum <- tapply(
+            df_reg[[sample_var]],
+            df_reg$region,
+            function(x) sum(x, na.rm = TRUE)
+        )
+
+        dropped_regions <- names(region_sum)[region_sum <= 0]
+        df_reg <- df_reg[df_reg$region %in% names(region_sum)[region_sum > 0], ]
+
+        if (is.null(horizon)) {
+            df_reg$y <- df_reg[[outcome_var]]
+        } else {
+            df_reg <- make_lp_outcome_level(df_reg, outcome_var, horizon)
+        }
+
+        rhs_vars <- c(treatment_vars, "log_population")
+        model_vars <- c("y", rhs_vars, "region", "year")
+        df_model <- df_reg[complete.cases(df_reg[, model_vars]), ]
+
+        status <- "estimated"
+        note <- ""
+        model <- NULL
+
+        if (
+            nrow(df_model) == 0 ||
+            length(unique(df_model$region)) < 2 ||
+            length(unique(df_model$year)) < 2 ||
+            length(unique(df_model$y)) <= 1
+        ) {
+            status <- "skipped"
+            note <- "insufficient identifying variation"
+        } else {
+            formula_text <- paste(
+                "y ~",
+                paste(rhs_vars, collapse = " + "),
+                "| region + year"
+            )
+
+            model <- tryCatch(
+                feols(
+                    as.formula(formula_text),
+                    data = df_model,
+                    cluster = ~region
+                ),
+                error = function(e) {
+                    status <<- "failed"
+                    note <<- conditionMessage(e)
+                    NULL
+                }
+            )
+        }
+
+        if (!is.null(model)) {
+            attr(model, "n_regions") <- length(unique(df_model$region))
+            attr(model, "outcome_label") <- outcome_label
+            attr(model, "outcome_var") <- outcome_var
+            attr(model, "spec_id") <- spec_id
+            attr(model, "sample_label") <- sample_label
+            attr(model, "horizon") <- horizon
+            models[[outcome_label]] <- model
+
+            if (!is.null(model$collin.var)) {
+                note <- paste(
+                    "collinear variables dropped:",
+                    paste(model$collin.var, collapse = ", ")
+                )
+            }
+        }
+
+        add_log(data.frame(
+            spec_id = spec_id,
+            sample = sample_label,
+            outcome_group = paste0("hospital_", outcome_family),
+            outcome = outcome_label,
+            n_obs = nrow(df_model),
+            n_regions = length(unique(df_model$region)),
+            dropped_region_count = length(dropped_regions),
+            always_zero_region_count = 0,
+            dropped_regions = paste(dropped_regions, collapse = "; "),
+            always_zero_regions = "",
             status = status,
             note = note,
             stringsAsFactors = FALSE
@@ -622,6 +857,80 @@ run_lp_spec <- function(
         hospital = hospital_models,
         doctor = doctor_models
     ))
+}
+
+additional_hospital_lp_coefficients <- list()
+
+run_additional_hospital_static_spec <- function(
+    outcome_family,
+    outcome_set,
+    spec_id,
+    title,
+    treatment_vars,
+    table_file,
+    filter_fun = NULL,
+    sample_label = "main"
+) {
+    hospital_models <- run_additional_hospital_models(
+        panel,
+        outcome_set$outcomes,
+        spec_id,
+        sample_label,
+        treatment_vars,
+        filter_fun = filter_fun,
+        outcome_family = outcome_family
+    )
+
+    write_regression_table(
+        hospital_models,
+        table_file,
+        paste0(title, ": ", outcome_set$label, " by Hospital Type"),
+        treatment_vars
+    )
+
+    invisible(hospital_models)
+}
+
+run_additional_hospital_lp_spec <- function(
+    outcome_family,
+    outcome_set,
+    spec_id,
+    title,
+    treatment_var,
+    horizon,
+    table_file,
+    filter_fun = NULL,
+    sample_label = "main"
+) {
+    hospital_models <- run_additional_hospital_models(
+        panel,
+        outcome_set$outcomes,
+        spec_id,
+        sample_label,
+        treatment_var,
+        filter_fun = filter_fun,
+        horizon = horizon,
+        outcome_family = outcome_family
+    )
+
+    write_regression_table(
+        hospital_models,
+        table_file,
+        paste0(title, ": ", outcome_set$label, " by Hospital Type"),
+        treatment_var
+    )
+
+    lp_hospital <- extract_model_coefficients(
+        hospital_models,
+        treatment_var,
+        paste0("hospital_", outcome_family),
+        spec_id,
+        horizon
+    )
+
+    additional_hospital_lp_coefficients[[length(additional_hospital_lp_coefficients) + 1]] <<- lp_hospital
+
+    invisible(hospital_models)
 }
 
 thresholds <- data.frame(
@@ -870,6 +1179,231 @@ run_static_spec(
     sample_label = "exclude ktx_chosen_2007 = 1",
     note = "Regions where KTX was already the fastest route in 2007 are excluded."
 )
+
+############################################################
+#### Additional Hospital Flow and Rate Outcomes ############
+############################################################
+
+for (outcome_family in names(additional_hospital_outcome_sets)) {
+    outcome_set <- additional_hospital_outcome_sets[[outcome_family]]
+    file_prefix <- paste0("add_", outcome_family)
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0(file_prefix, "_reg01_continuous_saving"),
+        paste0("Additional ", outcome_set$label, ". Continuous Saving Model"),
+        c("saving"),
+        paste0(file_prefix, "_reg01_continuous_saving_hospital.tex")
+    )
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0(file_prefix, "_reg02_within2h"),
+        paste0("Additional ", outcome_set$label, ". Two-Hour Access Model"),
+        c("within2h"),
+        paste0(file_prefix, "_reg02_within2h_hospital.tex")
+    )
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0(file_prefix, "_reg03_hybrid_saving_within2h"),
+        paste0("Additional ", outcome_set$label, ". Hybrid Saving + Two-Hour Access Model"),
+        c("saving", "within2h"),
+        paste0(file_prefix, "_reg03_hybrid_saving_within2h_hospital.tex")
+    )
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0(file_prefix, "_reg04_ktx_within2h"),
+        paste0("Additional ", outcome_set$label, ". KTX Two-Hour Access Model"),
+        c("ktx_within2h"),
+        paste0(file_prefix, "_reg04_ktx_within2h_hospital.tex")
+    )
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0(file_prefix, "_reg05_hybrid_saving_ktx_within2h"),
+        paste0("Additional ", outcome_set$label, ". Hybrid Saving + KTX Two-Hour Access Model"),
+        c("saving", "ktx_within2h"),
+        paste0(file_prefix, "_reg05_hybrid_saving_ktx_within2h_hospital.tex")
+    )
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0(file_prefix, "_reg06_saving_to_2h"),
+        paste0("Additional ", outcome_set$label, ". Saving Toward Two-Hour Threshold Model"),
+        c("saving_to_2h"),
+        paste0(file_prefix, "_reg06_saving_to_2h_hospital.tex")
+    )
+
+    for (i in seq_len(nrow(thresholds))) {
+        suffix <- thresholds$suffix[i]
+        label <- thresholds$label[i]
+        within_var <- paste0("within", suffix)
+
+        run_additional_hospital_static_spec(
+            outcome_family,
+            outcome_set,
+            paste0(file_prefix, "_reg07_threshold_", suffix),
+            paste0("Additional ", outcome_set$label, ". Threshold Access Model, ", label, " Hours"),
+            c(within_var),
+            paste0(file_prefix, "_reg07_threshold_", suffix, "_hospital.tex")
+        )
+    }
+
+    for (h in 0:5) {
+        run_additional_hospital_lp_spec(
+            outcome_family,
+            outcome_set,
+            paste0(file_prefix, "_reg08_lp_shocksaving_h", h),
+            paste0("Additional ", outcome_set$label, ". Local Projection with Continuous Shock"),
+            "shock_saving",
+            h,
+            paste0(file_prefix, "_reg08_lp_shocksaving_h", h, "_hospital.tex")
+        )
+    }
+
+    for (h in 0:5) {
+        run_additional_hospital_lp_spec(
+            outcome_family,
+            outcome_set,
+            paste0(file_prefix, "_reg09_lp_cross2h_h", h),
+            paste0("Additional ", outcome_set$label, ". Local Projection with Two-Hour Crossing Shock"),
+            "cross2h",
+            h,
+            paste0(file_prefix, "_reg09_lp_cross2h_h", h, "_hospital.tex")
+        )
+    }
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0(file_prefix, "_reg10_ktx_chosen"),
+        paste0("Additional ", outcome_set$label, ". KTX Chosen Model"),
+        c("ktx_chosen"),
+        paste0(file_prefix, "_reg10_ktx_chosen_hospital.tex")
+    )
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0(file_prefix, "_rob01_saving_excluding_already_treated"),
+        paste0("Additional ", outcome_set$label, ". Continuous Saving, Excluding Already-Treated Regions"),
+        c("saving"),
+        paste0(file_prefix, "_rob01_saving_excluding_already_treated_hospital.tex"),
+        filter_fun = function(x) x$already_treated_2007 == 0,
+        sample_label = "exclude within2h_2007 or ktx_chosen_2007"
+    )
+
+    for (i in seq_len(nrow(thresholds))) {
+        suffix <- thresholds$suffix[i]
+        label <- thresholds$label[i]
+        within_var <- paste0("within", suffix)
+        base_var <- paste0("within", suffix, "_2007")
+        base_filter <- local({
+            baseline_var <- base_var
+            function(x) x[[baseline_var]] == 0
+        })
+
+        run_additional_hospital_static_spec(
+            outcome_family,
+            outcome_set,
+            paste0(file_prefix, "_rob02_threshold_", suffix, "_not_already_within"),
+            paste0("Additional ", outcome_set$label, ". Threshold Access, ", label, " Hours, Excluding Baseline Within-Threshold Regions"),
+            c(within_var),
+            paste0(file_prefix, "_rob02_threshold_", suffix, "_hospital.tex"),
+            filter_fun = base_filter,
+            sample_label = paste0("exclude ", base_var, " = 1")
+        )
+
+        run_additional_hospital_static_spec(
+            outcome_family,
+            outcome_set,
+            paste0(file_prefix, "_rob03_hybrid_threshold_", suffix, "_not_already_within"),
+            paste0("Additional ", outcome_set$label, ". Hybrid Saving + Threshold Access, ", label, " Hours, Excluding Baseline Within-Threshold Regions"),
+            c("saving", within_var),
+            paste0(file_prefix, "_rob03_hybrid_threshold_", suffix, "_hospital.tex"),
+            filter_fun = base_filter,
+            sample_label = paste0("exclude ", base_var, " = 1")
+        )
+    }
+
+    for (i in seq_len(nrow(thresholds))) {
+        suffix <- thresholds$suffix[i]
+        label <- thresholds$label[i]
+        ktx_within_var <- paste0("ktx_within", suffix)
+        base_var <- paste0("ktx_within", suffix, "_2007")
+        base_filter <- local({
+            baseline_var <- base_var
+            function(x) x[[baseline_var]] == 0
+        })
+
+        run_additional_hospital_static_spec(
+            outcome_family,
+            outcome_set,
+            paste0(file_prefix, "_rob04_ktx_threshold_", suffix, "_not_already_ktx_within"),
+            paste0("Additional ", outcome_set$label, ". KTX Threshold Access, ", label, " Hours, Excluding Baseline KTX Within-Threshold Regions"),
+            c(ktx_within_var),
+            paste0(file_prefix, "_rob04_ktx_threshold_", suffix, "_hospital.tex"),
+            filter_fun = base_filter,
+            sample_label = paste0("exclude ", base_var, " = 1")
+        )
+
+        run_additional_hospital_static_spec(
+            outcome_family,
+            outcome_set,
+            paste0(file_prefix, "_rob05_hybrid_ktx_threshold_", suffix, "_not_already_ktx_within"),
+            paste0("Additional ", outcome_set$label, ". Hybrid Saving + KTX Threshold Access, ", label, " Hours, Excluding Baseline KTX Within-Threshold Regions"),
+            c("saving", ktx_within_var),
+            paste0(file_prefix, "_rob05_hybrid_ktx_threshold_", suffix, "_hospital.tex"),
+            filter_fun = base_filter,
+            sample_label = paste0("exclude ", base_var, " = 1")
+        )
+    }
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0(file_prefix, "_rob06_ktx_chosen_not_already_chosen"),
+        paste0("Additional ", outcome_set$label, ". KTX Chosen, Excluding Baseline KTX-Chosen Regions"),
+        c("ktx_chosen"),
+        paste0(file_prefix, "_rob06_ktx_chosen_hospital.tex"),
+        filter_fun = function(x) x$ktx_chosen_2007 == 0,
+        sample_label = "exclude ktx_chosen_2007 = 1"
+    )
+}
+
+############################################################
+#### Direct Travel-Time Level Regressions ##################
+############################################################
+
+run_static_spec(
+    "direct_travel_time_level",
+    "Direct Travel-Time Level Model",
+    "y_{it}=\\alpha_i+\\tau_t+\\beta TravelTime_{it}+\\gamma\\log(Population_{it})+\\epsilon_{it}",
+    c("travel_time_hour"),
+    "direct_travel_time_level_hospital.tex",
+    "direct_travel_time_level_doctor.tex"
+)
+
+for (outcome_family in names(additional_hospital_outcome_sets)) {
+    outcome_set <- additional_hospital_outcome_sets[[outcome_family]]
+
+    run_additional_hospital_static_spec(
+        outcome_family,
+        outcome_set,
+        paste0("direct_travel_time_level_", outcome_family),
+        paste0("Direct Travel-Time Level Model, ", outcome_set$label),
+        c("travel_time_hour"),
+        paste0("direct_travel_time_level_", outcome_family, "_hospital.tex")
+    )
+}
 
 ############################################################
 #### Local Projection Plots ################################
